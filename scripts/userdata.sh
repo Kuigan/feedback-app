@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# Die Userscripte werden automatisch als sudo ausgeführt, deswegen ohne sudo im Script
-
 #Install Docker
 yum update -y
 yum install -y docker
@@ -17,7 +15,7 @@ chmod +x /usr/local/bin/docker-compose
 #Download Docker-Compose App Config
 mkdir /home/ec2-user/feedback-app
 cd /home/ec2-user/feedback-app
-wget https://raw.githubusercontent.com/Kuigan/feedback-app/main/docker-compose.yml
+wget https://raw.githubusercontent.com/atamankina/feedback-app/main/docker-compose.yml
 
 #Start the app
 docker-compose up -d

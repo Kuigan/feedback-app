@@ -10,10 +10,4 @@ COPY . /app
 
 EXPOSE 3000
 
-# ENV DB_USER=postgres
-# ENV DB_HOST=postgres-db
-# ENV DB_DATABASE=feedbackdb
-# ENV DB_PASSWORD=yourpassword
-# ENV DB_PORT=5432
-
 CMD ["npm", "run", "dev"]

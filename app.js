@@ -1,9 +1,13 @@
 import express from 'express';
 import pkg from 'pg';
+import cors from 'cors';
 
 // Creating the express app
 const app = express();
 const PORT = 3000;
+
+// Setup CORS
+app.use(cors());
 
 // Middleware for parsing JSON
 app.use(express.json());
@@ -14,7 +18,7 @@ const { Pool } = pkg;
 const pool = new Pool({
     user: process.env.DB_USER,
     host: process.env.DB_HOST,
-    database: process.env.DB_DATABASE,
+    database: process.env.DB_NAME,
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT
 });
