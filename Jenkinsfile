@@ -1,9 +1,9 @@
 pipeline {
     agent {
-            kubernetes {
-                label 'jenkins-docker-agent'
-                defaultContainer 'jnlp'
-                yaml """ 
+        kubernetes {
+            label 'jenkins-docker-agent'
+            defaultContainer 'jnlp'
+            yaml """ 
 apiVersion: v1
 kind: Pod
 metadata:
@@ -29,12 +29,11 @@ spec:
   volumes:
   - hostPath:
       path: /var/run/docker.sock
-    name: docker-socket
+    name: docker-socket            
 """
-            }
-    }
-    
 
+        }
+    }
 
     triggers {
         pollSCM('H/2 * * * *')
@@ -54,9 +53,7 @@ spec:
             steps {
                 echo 'Building the app...'
                 container('docker') {
-                    script{
-                        docker.withRegistry('', 'dockerhub-token') {
-                            sh 'docker build -t kuigan/feedback-app:pipeline-test .'
+                    sh 'docker build -t kuigan/feedback-app:pipeline-test .'
                 }
                 echo 'Build successful.'
             }    
@@ -65,7 +62,11 @@ spec:
             steps {
                 echo 'Pushing the image to Docker Hub...'
                 container('docker') {
-                sh 'docker build -t kuigan/feedback-app:pipeline-test'
+                    script {
+                        docker.withRegistry('', 'dockerhub-token') {
+                            sh 'docker push kuigan/feedback-app:pipeline-test'
+                        }
+                    }  
                 }
                 echo 'Push successful.'
             }
