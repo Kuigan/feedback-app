@@ -54,7 +54,9 @@ spec:
             steps {
                 echo 'Building the app...'
                 container('docker') {
-                sh 'docker build -t kuigan/feedback-app:pipeline-test .'
+                    script{
+                        docker.withRegistry('', 'dockerhub-token') {
+                            sh 'docker build -t kuigan/feedback-app:pipeline-test .'
                 }
                 echo 'Build successful.'
             }    
