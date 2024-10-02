@@ -11,8 +11,8 @@ pipeline {
     }
     
     environment {
-        GITHUB_REPO = 'https://github.com/atamankina/feedback-app.git'
-        DOCKER_IMAGE = 'galaataman/feedback-app:pipeline-test'
+        GITHUB_REPO = 'https://github.com/kuigan/feedback-app.git'
+        DOCKER_IMAGE = 'kuigan/feedback-app:pipeline-test'
         DOCKER_CREDENTIALS_ID = 'dockerhub-token'
     }
     
@@ -48,9 +48,9 @@ pipeline {
             steps {
                 echo 'Deploying to kubernetes cluster...'
                 container('kubectl') {
-                //    sh 'kubectl apply -f kubernetes/secret.yaml'
-                //    sh 'kubectl apply -f kubernetes/configmap.yaml'
-                //    sh 'kubectl apply -f kubernetes/database-volume.yaml'
+                    sh 'kubectl apply -f kubernetes/secret.yaml'
+                    sh 'kubectl apply -f kubernetes/configmap.yaml'
+                    sh 'kubectl apply -f kubernetes/database-volume.yaml'
                     sh 'kubectl apply -f kubernetes/database-deployment.yaml'
                 } 
                 echo 'Deployment successful.'
@@ -63,6 +63,15 @@ pipeline {
                     sh 'kubectl apply -f kubernetes/api-deployment.yaml'
                 } 
                 echo 'Deployment successful.'
+            }
+        }
+        stage('Integration Tests') {
+            steps {
+                echo 'Running integration tests...'
+                container('k6') {
+                    sh 'k6 run --env BASE_URL=http://feedback-app-api-service:3000 ./tests/feedback-api.integration.js'
+                }
+                echo 'Integration tests ready.'
             }
         }
     }   
