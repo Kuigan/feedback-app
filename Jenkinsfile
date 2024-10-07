@@ -12,8 +12,10 @@ pipeline {
     
     environment {
         GITHUB_REPO = 'https://github.com/kuigan/feedback-app.git'
-        DOCKER_IMAGE = 'kuigan/feedback-app:pipeline-test'
         DOCKER_CREDENTIALS_ID = 'dockerhub-token'
+        DOCKER_REPO = 'kuigan/feedback-app'
+        IMAGE_TAG = "${BUILD_NUMBER}"
+        DOCKER_IMAGE = "${DOCKER_REPO}:${IMAGE_TAG}" 
     }
     
     stages {        
@@ -60,6 +62,7 @@ pipeline {
             steps {
                 echo 'Deploying to kubernetes cluster...'
                 container('kubectl') {
+                    sh "sed -i "s|image: kuigan/feedback-app:latest|image: $DOCKER_IMAGE|g" kubernetes/api-deployment.yaml"
                     sh 'kubectl apply -f kubernetes/api-deployment.yaml'
                 } 
                 echo 'Deployment successful.'
