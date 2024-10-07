@@ -66,6 +66,7 @@ pipeline {
             }
         }
         stage('Check App Status' ){
+            steps {
             echo 'Checking if the App is reachable...'
             script {
                 def retries = 30
@@ -88,6 +89,7 @@ pipeline {
                     sleep delay
 
                 }
+            }
             }
         }
         stage('Integration Tests') {
