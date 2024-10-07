@@ -71,7 +71,7 @@ pipeline {
             script {
                 def retries = 30
                 def delay = 10
-                def url = "http://feedback-app-api-service:3000"
+                def url = 'http://feedback-app-api-service:3000'
 
                 for (int i = 0; i < retries; i++) {
                     def result = sh(script: "curl -s -o /dev/null -w '%{http_code}' $url", returnStdout: true).trim()
