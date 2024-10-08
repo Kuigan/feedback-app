@@ -1,7 +1,10 @@
 import pkg from 'pg';
-
 const { Pool } = pkg;
 
+/**
+* Erstellt eine neue Verbindung zur PostgreSQL-Datenbank.
+* Die Verbindung wird mit Umgebungsvariablen konfiguriert.
+*/
 const pool = new Pool({
     user: process.env.DB_USER,
     host: process.env.DB_HOST,
@@ -10,6 +13,11 @@ const pool = new Pool({
     port: process.env.DB_PORT
 });
 
+/**
+* Erstellt die Feedback-Tabelle in der Datenbank, falls sie nicht existiert.
+* @async
+* @returns {Promise<void>} Eine Promise, die die Tabellenerstellung abschließt.
+*/ 
 const createTable = async () => {
     try {
         await pool.query(`
