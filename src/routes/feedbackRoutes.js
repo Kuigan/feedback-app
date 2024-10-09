@@ -5,27 +5,20 @@ import { sendSuccess, sendError } from '../utils/responseHelper.js';
 
 const feedbackRouter = express.Router();
 
-
-/**
-* Route: POST /feedback
-* Fügt neues Feedback hinzu.
-*/
+// POST /feedback - fuegt neues Feedback hinzu
 feedbackRouter.post('/feedback', feedbackValidation, async (req, res) => { 
 
     try {
         const { title, text } = req.body;
         const newFeedback = await addFeedback(title, text);
-        sendSuccess(res, newFeedback, "Feedback erfolgreich gespeichert.");
+        sendSuccess(res, newFeedback, "Feedback erfolgreich gespeichert.", 201);
     } catch (error) {
         sendError(res, "Fehler beim Speichern des Feedbacks.");
     }
 
 });
 
-/**
-* Route: GET /feedback
-* Ruft alle Feedback-Einträge ab.
-*/
+// GET /feedback - gibt alle Feedback Eintraege zurueck
 feedbackRouter.get('/feedback', async (req, res) => {
 
     try {
@@ -38,10 +31,7 @@ feedbackRouter.get('/feedback', async (req, res) => {
 
 });
 
-/**
-* Route: DELETE /feedback/:id
-* Löscht einen Feedback-Eintrag anhand der ID.
-*/
+// DELETE /feedback/title - Loescht Feedback mit dem gegebenen title
 feedbackRouter.delete('/feedback/:title', async (req, res) => {
 
     try {
@@ -49,7 +39,7 @@ feedbackRouter.delete('/feedback/:title', async (req, res) => {
 
         const result = await deleteFeedbackByTitle(title);
         if (result.rowCount === 0) {
-            return sendError(res, "Feedback nicht gefunden", 404);
+            return sendError(res, "Feedback nicht gefunden.", 404);
         }
         sendSuccess(res, null, "Feedback erfolgreich geloescht.");
     } catch (error) {
