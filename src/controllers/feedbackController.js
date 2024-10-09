@@ -1,4 +1,4 @@
-import { pool } from './db.js';
+import { pool } from '../db.js';
 
 /**
 * Fügt ein neues Feedback in die Datenbank ein.
