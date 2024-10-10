@@ -1,5 +1,4 @@
-// __tests__/errorHandler.test.js
-import { errorHandler } from '../src/middleware/errorHandler.js';
+import { errorHandler } from '../src/middleware/errorHandler';
 import express from 'express';
 import request from 'supertest';
 
