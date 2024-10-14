@@ -22,7 +22,7 @@ spec:
     - name: docker-socket
       mountPath: /var/run/docker.sock
   - name: kubectl
-    image: lachlanevenson/k8s-kubectl:latest
+    image: galaataman/kubectl:latest
     resources:
       requests:
         memory: "128Mi"
@@ -34,7 +34,7 @@ spec:
     - cat
     tty: true
   - name: k6
-    image: kuigan/k6:latest
+    image: galaataman/k6:latest
     resources:
       requests:
         memory: "128Mi"
@@ -54,6 +54,18 @@ spec:
       limits:
         memory: "128Mi"
         cpu: "250m"
+    command:
+    - cat
+    tty: true
+  - name: terraform
+    image: hashicorp/terraform:latest
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "500m"
+      limits:
+        memory: "512Mi"
+        cpu: "1000m"
     command:
     - cat
     tty: true
